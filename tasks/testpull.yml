@@ -1,0 +1,9 @@
+---
+- name: Create a text file
+  file:
+    path: /home/client/pulltest.txt
+    state: touch
+- name: Write content to the file
+  lineinfile:
+    path: /home/client/pulltest.txt
+    line: "pull sucess"
