@@ -1,0 +1,85 @@
+- name: Install iptables
+  package:
+    name: iptables
+    state: present
+
+- name: Configure iptables SYN Flood protection
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    tcp_flags:
+       flags: ALL
+       flags_set:
+         - SYN
+    limit: 1/second
+    limit_burst: 5
+    jump: ACCEPT
+    state: present
+
+- name: Configure iptables ICMP Flood protection
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: icmp
+    icmp_type: "echo-request"
+    limit: 1/second
+    limit_burst: 5
+    jump: ACCEPT
+    state: present
+
+- name: Configure iptables UDP Flood protection
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: udp
+    limit: 1/second
+    limit_burst: 5
+    jump: ACCEPT
+    state: present
+- name: Disable unnecessary services
+  shell: systemctl stop {{ item }}
+  ignore_errors: true
+  with_items:
+    - telnet
+    - rsh
+    - rlogin
+    - rexec
+  tags: service
+
+- name: Install and configure security software
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - iptables-persistent
+    - fail2ban
+    - clamav
+  tags: security
+
+
+- name: Configure SSH to use public key authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: 'PasswordAuthentication yes'
+  name: restarting service
+  service:
+    name: ssh
+    state: restarted
+  #- name: Configure iptables Reject all other incoming traffic
+   # iptables:
+     # table: filter
+     # chain: INPUT
+    #  rule: "-j REJECT"
+   #   state: present
+
+  #- name: Save iptables rules
+   # command: iptables-save
+   # register: iptables_save
+
+
+
+
+
+
