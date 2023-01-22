@@ -9,7 +9,7 @@
       changed_when: False
 
   tasks:
-   # - include: tasks/securefirewall.yml
-    - include: tasks/testpull.yml
+    - include: tasks/securefirewall.yml
+   # - include: tasks/testpull.yml
 
 
