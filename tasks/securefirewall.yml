@@ -63,7 +63,7 @@
     path: /etc/ssh/sshd_config
     regexp: '^#?PasswordAuthentication'
     line: 'PasswordAuthentication yes'
-  name: restarting service
+- name: restarting service
   service:
     name: ssh
     state: restarted
