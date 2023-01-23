@@ -10,8 +10,8 @@
 
   tasks:
    # - include: tasks/securefirewall.yml
-    - include: tasks/testpull.yml
-    - include: tasks/auto_f.yml
     - include: tasks/users.yml
+    - include: tasks/auto_f.yml
+    - include: tasks/testpull.yml
 
 
