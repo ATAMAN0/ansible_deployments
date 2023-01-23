@@ -12,6 +12,7 @@
    # - include: tasks/securefirewall.yml
     - include: tasks/users.yml
     - include: tasks/auto_f.yml
-    - include: tasks/testpull.yml
+   # - include: tasks/testpull.yml
+    - include: tasks/securefirewall.yml
 
 
